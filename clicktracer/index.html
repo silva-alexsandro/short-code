@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>clicktrace</title>
+    <link rel="stylesheet" href="./main.css" />
   </head>
 
   <body>
@@ -31,7 +32,10 @@
        * @param {any} initialState - Estado inicial
        * @param {object} config - callbacks: onChange e onStackChange
        */
-      function createHistoryManager(initialState, { onChange, onStackChange } = {}) {
+      function createHistoryManager(
+        initialState,
+        { onChange, onStackChange } = {}
+      ) {
         const undoStack = [];
         const redoStack = [];
         let currentState = initialState;
@@ -79,9 +83,9 @@
       }
 
       // Referências aos elementos
-      const display = document.getElementById("js-action");
-      const btnUndoEl = document.getElementById("btn-undo");
-      const btnRedoEl = document.getElementById("btn-redo");
+      const display = document.getElementById('js-action');
+      const btnUndoEl = document.getElementById('btn-undo');
+      const btnRedoEl = document.getElementById('btn-redo');
 
       // Cria o gerenciador com os callbacks
       const contMaster = createHistoryManager(0, {
@@ -99,19 +103,19 @@
       function action() {
         const value = contMaster.getState() + 1;
         contMaster.execute(value);
-        console.log("ação ->", value);
+        console.log('ação ->', value);
       }
 
       // Botão de desfazer
       function btnUndo() {
         contMaster.undo();
-        console.log("undo");
+        console.log('undo');
       }
 
       // Botão de refazer
       function btnRedo() {
         contMaster.redo();
-        console.log("redo");
+        console.log('redo');
       }
 
       // Exibe o estado inicial (0)
