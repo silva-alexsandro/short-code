@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clicktrace</title>
+  </head>
+
+  <body>
+    <header>
+      <h1>clicktrace</h1>
+    </header>
+
+    <main>
+      <!-- Seção de controle de histórico -->
+      <section>
+        <button id="btn-undo" onclick="btnUndo()">Desfazer</button>
+        <button id="btn-redo" onclick="btnRedo()">Refazer</button>
+      </section>
+
+      <!-- Seção de ações -->
+      <section>
+        <button onclick="action()">Ação</button>
+        <div id="js-action"></div>
+      </section>
+    </main>
+
+    <script>
+      /**
+       * Cria um gerenciador de histórico (undo/redo)
+       * @param {any} initialState - Estado inicial
+       * @param {object} config - callbacks: onChange e onStackChange
+       */
+      function createHistoryManager(initialState, { onChange, onStackChange } = {}) {
+        const undoStack = [];
+        const redoStack = [];
+        let currentState = initialState;
+
+        function updateState(newState) {
+          currentState = newState;
+          if (onChange) onChange(currentState);
+          if (onStackChange)
+            onStackChange({
+              canUndo: undoStack.length > 0,
+              canRedo: redoStack.length > 0,
+            });
+        }
+
+        function execute(newState) {
+          undoStack.push(currentState);
+          redoStack.length = 0;
+          updateState(newState);
+        }
+
+        function undo() {
+          if (undoStack.length > 0) {
+            redoStack.push(currentState);
+            const previousState = undoStack.pop();
+            updateState(previousState);
+          }
+        }
+
+        function redo() {
+          if (redoStack.length > 0) {
+            undoStack.push(currentState);
+            const nextState = redoStack.pop();
+            updateState(nextState);
+          }
+        }
+
+        function getState() {
+          return currentState;
+        }
+
+        // Inicializa o estado visual
+        if (onStackChange) onStackChange({ canUndo: false, canRedo: false });
+
+        return { execute, getState, undo, redo };
+      }
+
+      // Referências aos elementos
+      const display = document.getElementById("js-action");
+      const btnUndoEl = document.getElementById("btn-undo");
+      const btnRedoEl = document.getElementById("btn-redo");
+
+      // Cria o gerenciador com os callbacks
+      const contMaster = createHistoryManager(0, {
+        onChange: (newValue) => {
+          display.textContent = newValue;
+        },
+        onStackChange: ({ canUndo, canRedo }) => {
+          // Ativa/desativa os botões conforme o histórico
+          btnUndoEl.disabled = !canUndo;
+          btnRedoEl.disabled = !canRedo;
+        },
+      });
+
+      // Função chamada ao clicar em “Ação”
+      function action() {
+        const value = contMaster.getState() + 1;
+        contMaster.execute(value);
+        console.log("ação ->", value);
+      }
+
+      // Botão de desfazer
+      function btnUndo() {
+        contMaster.undo();
+        console.log("undo");
+      }
+
+      // Botão de refazer
+      function btnRedo() {
+        contMaster.redo();
+        console.log("redo");
+      }
+
+      // Exibe o estado inicial (0)
+      display.textContent = contMaster.getState();
+    </script>
+  </body>
+</html>
