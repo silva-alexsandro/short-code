@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>layout 4</title>
+  <style>
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   }
+   .container {
+    min-height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+     "header"
+     "main"
+     "footer";
+    gap: 20px;
+   }
+   .header {
+    grid-area: header;
+    height: 70px;
+    background: #f32db4;
+   }
+   .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 20px;
+   }
+   main {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+   }
+   .cards {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+   }
+   .card {
+    background: yellow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+
+   .wrapper-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+   }
+   .box {
+    background: #e22a86;
+    background: #e22a86;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+   }
+   .footer {
+    grid-area: footer;
+    background: #0b42f9;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+   }
+   @media (max-width: 768px) {
+    /* Header fica vertical */
+    .navbar {
+     flex-direction: column;
+     justify-content: center;
+     gap: 10px;
+     text-align: center;
+    }
+
+    /* Boxes empilham */
+    .wrapper-grid {
+     grid-template-columns: 1fr;
+    }
+
+    .footer {
+     height: 50px;
+    }
+   }
+  </style>
+ </head>
+ <body>
+  <div class="container">
+   <header class="header">
+    <nav class="navbar">
+     <div class="logo">logo</div>
+     <div class="navigation">navigation</div>
+    </nav>
+   </header>
+
+   <main>
+    <section class="cards">
+     <article class="card">1</article>
+     <article class="card">2</article>
+     <article class="card">3</article>
+     <article class="card">4</article>
+     <article class="card">5</article>
+     <article class="card">6</article>
+     <article class="card">7</article>
+     <article class="card">8</article>
+     <article class="card">9</article>
+     <article class="card">10</article>
+    </section>
+
+    <section class="wrapper-grid">
+     <div class="box">box 1</div>
+     <div class="box">box 2</div>
+     <div class="box">box 3</div>
+    </section>
+   </main>
+
+   <footer class="footer">footer</footer>
+  </div>
+ </body>
+</html>

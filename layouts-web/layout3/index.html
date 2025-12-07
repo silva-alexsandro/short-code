@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>layout 3</title>
+
+  <style>
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   }
+
+   body {
+    font-family: Arial, sans-serif;
+   }
+
+   /* ---- GRID PRINCIPAL ---- */
+   .container {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+     "header"
+     "content"
+     "footer";
+   }
+
+   /* ---- HEADER GERAL ---- */
+   .header {
+    grid-area: header;
+    background: #d1d1d1;
+    padding: 20px;
+    font-size: 24px;
+   }
+
+   /* ---- ÁREA DO MEIO: SIDEBAR + BANNER + BODY ---- */
+   .content-area {
+    grid-area: content;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+     "sidebar banner"
+     "sidebar body";
+    min-height: 0; /* evita stretching excessivo */
+   }
+
+   /* ---- SIDEBAR ---- */
+   .sidebar {
+    grid-area: sidebar;
+    background: #ececec;
+    padding: 20px;
+    border-right: 1px solid #ccc;
+   }
+
+   /* ---- BANNER (header interior) ---- */
+   .banner {
+    grid-area: banner;
+    padding: 20px;
+    background: #cfcfcf;
+    border-bottom: 1px solid #ccc;
+   }
+
+   /* ---- BODY AREA ---- */
+   .body-area {
+    grid-area: body;
+    background: #bfbfbf;
+    padding: 20px;
+   }
+
+   /* ---- FOOTER ---- */
+   .footer {
+    grid-area: footer;
+    padding: 20px;
+    background: #d1d1d1;
+    text-align: center;
+   }
+
+   /* ---- RESPONSIVO ---- */
+   @media (max-width: 768px) {
+    .content-area {
+     grid-template-columns: 1fr;
+     grid-template-rows: auto auto 1fr;
+     grid-template-areas:
+      "sidebar"
+      "banner"
+      "body";
+    }
+
+    .sidebar {
+     border-right: none;
+     border-bottom: 1px solid #ccc;
+    }
+   }
+  </style>
+ </head>
+
+ <body>
+  <div class="container">
+   <header class="header">Logo</header>
+
+   <div class="content-area">
+    <aside class="sidebar">
+     Side bar <br />
+     Navigation
+    </aside>
+
+    <section class="banner">Header / Banner</section>
+
+    <section class="body-area">Body Area</section>
+   </div>
+
+   <footer class="footer">Footer</footer>
+  </div>
+ </body>
+</html>
